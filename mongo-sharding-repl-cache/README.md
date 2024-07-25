@@ -10,7 +10,7 @@ docker compose up -d
 
 Выполните эти команды одну за другой:
 ```bash
-docker-compose exec configsvr01 sh -c "mongosh < /scripts/init-configsrv.js"
+docker-compose exec configsvr01 sh -c "mongosh < /scripts/init-configsvr.js"
 docker-compose exec shard01-a sh -c "mongosh < /scripts/init-shard01.js"
 docker-compose exec shard02-a sh -c "mongosh < /scripts/init-shard02.js"
 ```
@@ -60,3 +60,10 @@ docker-compose down -v --rmi all --remove-orphans
 
 1. Если мы говорим об отказоустойчивости, то консул и апи гейтвей так же надо реплицировать
 2. Кеш можно иметь один инстанс, потеря кеша не сломает все наше приложение
+
+
+ps. Все перепроверил, приложение работает с несколькими урлами в MONGODB_URL. 
+
+Можно попробовать сбросить volume перед развертыванием -docker-compose down -v
+
+Все работает корректно и в директории с репликой и директории с кэшем, скорее всего что-то с настройками в волюмах, может композ закешировал

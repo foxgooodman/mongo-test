@@ -8,28 +8,28 @@
 docker compose up -d
 ```
 
-Заполняем mongodb данными
-
-```shell
-./scripts/mongo-init.sh
+Выполните эти команды одну за другой:
+```bash
+docker-compose exec configsvr01 sh -c "mongosh < /scripts/init-configsvr.js"
+docker-compose exec shard01-a sh -c "mongosh < /scripts/init-shard01.js"
+docker-compose exec shard02-a sh -c "mongosh < /scripts/init-shard02.js"
 ```
 
-## Как проверить
+Подождите несколько секунд пока сервер конфигурации и шарды выберут ведущие ноды
 
-### Если вы запускаете проект на локальной машине
-
-Откройте в браузере http://localhost:8080
-
-### Если вы запускаете проект на предоставленной виртуальной машине
-
-Узнать белый ip виртуальной машины
-
-```shell
-curl --silent http://ifconfig.me
+Выполните:
+```bash
+docker-compose exec router01 sh -c "mongosh < /scripts/init-router.js"
 ```
 
-Откройте в браузере http://<ip виртуальной машины>:8080
+Проверьте документы на шардах:
+```bash
+docker-compose exec router01 sh -c "mongosh < /scripts/get-docs-count.js"
+```
 
-## Доступные эндпоинты
-
-Список доступных эндпоинтов, swagger http://<ip виртуальной машины>:8080/docs
+Сброс кластера
+```bash
+docker-compose down
+docker-compose rm
+docker-compose down -v --rmi all --remove-orphans
+```

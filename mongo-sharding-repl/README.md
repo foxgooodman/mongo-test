@@ -10,7 +10,7 @@ docker compose up -d
 
 Выполните эти команды одну за другой:
 ```bash
-docker-compose exec configsvr01 sh -c "mongosh < /scripts/init-configsrv.js"
+docker-compose exec configsvr01 sh -c "mongosh < /scripts/init-configsvr.js"
 docker-compose exec shard01-a sh -c "mongosh < /scripts/init-shard01.js"
 docker-compose exec shard02-a sh -c "mongosh < /scripts/init-shard02.js"
 ```
